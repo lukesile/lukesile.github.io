@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASIMOV — Ethical Constraint Simulation</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f1117;color:#e2e8f0;padding:1rem}@media(max-width:560px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}.params{grid-template-columns:1fr!important}}
+h1{font-size:18px;font-weight:500;color:#e2e8f0;margin-bottom:4px}
+.subtitle{font-size:12px;color:#64748b;margin-bottom:1rem}
+canvas{display:block;width:100%;border:1px solid #1e293b;border-radius:10px;background:#0a0f1a}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.btn{font-size:12px;padding:5px 14px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;border-radius:6px;cursor:pointer;transition:background .15s}
+.btn:hover{background:#334155}
+.btn.primary{color:#60a5fa;border-color:#3b82f6}
+.btn.danger{color:#f87171;border-color:#ef4444}
+.btn:disabled{opacity:0.4;cursor:default}
+.label-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 6px}
+.pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500}
+.pill-civ{background:#0f3d2e;color:#4ade80}
+.pill-com{background:#3d0f0f;color:#f87171}
+.pill-as{background:#0f2a4a;color:#60a5fa}
+.pill-obj{background:#3d2a0f;color:#fbbf24}
+.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:10px 0}
+.mc{background:#1e293b;border-radius:6px;padding:8px 10px;text-align:center}
+.mc .num{font-size:18px;font-weight:500}
+.mc .lbl{font-size:11px;color:#64748b;margin-top:2px}
+.log{background:#0d1117;border:1px solid #1e293b;border-radius:6px;padding:8px 12px;max-height:160px;overflow-y:auto;font-size:11px;font-family:'Courier New',monospace;line-height:1.6}
+.log-pass{color:#4ade80}
+.log-warn{color:#fbbf24}
+.log-fail{color:#f87171}
+.log-info{color:#64748b}
+.params{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;margin:10px 0}
+.param-row{display:flex;flex-direction:column;gap:4px}
+.param-row label{font-size:11px;color:#94a3b8;display:flex;justify-content:space-between}
+.param-row input[type=range]{width:100%;accent-color:#3b82f6}
+.section-label{font-size:10px;font-weight:600;color:#475569;margin:12px 0 4px;letter-spacing:.06em;text-transform:uppercase}
+#status-text{font-size:12px;color:#64748b}
+.principles-legend{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0;font-size:11px;color:#94a3b8}
+.principles-legend span{display:flex;align-items:center;gap:4px}
+.dot-green{width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block}
+.dot-red{width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block}
+</style>
+</head>
+<body>
+
+<h1>ASIMOV · Ethical Constraint Simulation</h1>
+<p class="subtitle">Autonomous system behavior under LOAC / ROE constraints — Values &amp; Intent domain (L0-003, L0-005)</p>
+
+<div class="label-row">
+  <span class="pill pill-as">AS</span><span style="font-size:12px;color:#94a3b8">Autonomous system</span>
+  <span class="pill pill-com" style="margin-left:8px">HVT</span><span style="font-size:12px;color:#94a3b8">High-value target</span>
+  <span class="pill pill-civ" style="margin-left:8px">CIV</span><span style="font-size:12px;color:#94a3b8">Civilian</span>
+  <span class="pill pill-obj" style="margin-left:8px">OBJ</span><span style="font-size:12px;color:#94a3b8">Objective</span>
+</div>
+
+<canvas id="c" height="360"></canvas>
+
+<div class="controls">
+  <button class="btn primary" id="btn-run" onclick="toggleSim()">Run simulation</button>
+  <button class="btn" onclick="resetSim()">Reset</button>
+  <button class="btn danger" id="btn-engage" onclick="manualEngage()" disabled>Manual engage</button>
+  <span id="status-text"></span>
+</div>
+
+<div class="metrics">
+  <div class="mc"><div class="num" id="m-tick">0</div><div class="lbl">Ticks</div></div>
+  <div class="mc"><div class="num" id="m-engagements" style="color:#60a5fa">0</div><div class="lbl">Engagements</div></div>
+  <div class="mc"><div class="num" id="m-aborted" style="color:#fbbf24">0</div><div class="lbl">Aborted</div></div>
+  <div class="mc"><div class="num" id="m-violations" style="color:#f87171">0</div><div class="lbl">Violations</div></div>
+  <div class="mc"><div class="num" id="m-compliance">100%</div><div class="lbl">Compliance</div></div>
+</div>
+
+<div class="section-label">Active principles</div>
+<div class="principles-legend">
+  <span><span class="dot-green"></span> Distinction</span>
+  <span><span class="dot-green"></span> Proportionality</span>
+  <span><span class="dot-green"></span> Military necessity</span>
+  <span><span class="dot-green"></span> Precaution</span>
+  <span><span class="dot-green"></span> Commander's intent</span>
+</div>
+
+<div class="section-label">Mission parameters</div>
+<div class="params">
+  <div class="param-row"><label>Civilian density <span id="v-civs">6</span></label><input type="range" min="0" max="14" value="6" step="1" oninput="updateParam('civDensity',+this.value,'v-civs')"></div>
+  <div class="param-row"><label>Proportionality threshold <span id="v-prop">3.0×</span></label><input type="range" min="1" max="8" value="3" step="0.5" oninput="updateParam('propThresh',+this.value,'v-prop','×')"></div>
+  <div class="param-row"><label>Commander intent radius <span id="v-rad">120px</span></label><input type="range" min="40" max="200" value="120" step="10" oninput="updateParam('intentRadius',+this.value,'v-rad','px')"></div>
+  <div class="param-row"><label>Precaution dwell (ticks) <span id="v-dwell">40</span></label><input type="range" min="10" max="100" value="40" step="5" oninput="updateParam('dwellTicks',+this.value,'v-dwell')"></div>
+</div>
+
+<div class="section-label">Decision log</div>
+<div class="log" id="log"><div class="log-info">— simulation not started —</div></div>
+
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W,H,raf=null,running=false;
+let params={civDensity:6,propThresh:3,intentRadius:120,dwellTicks:40};
+function updateParam(k,v,labelId,suffix=''){params[k]=v;document.getElementById(labelId).textContent=v+suffix;}
+let metrics={ticks:0,engagements:0,aborted:0,violations:0};
+let logEntries=[];
+let entities=[];
+let as_=null;
+let objective=null;
+const PRINCIPLES=['Distinction','Proportionality','Military necessity','Precaution','Cmdr intent'];
+
+function resize(){W=canvas.offsetWidth||700;H=360;canvas.width=W;canvas.height=H;}
+function rnd(a,b){return a+Math.random()*(b-a);}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+
+function spawnEntities(){
+  entities=[];
+  objective={x:rnd(W*0.55,W*0.85),y:rnd(H*0.2,H*0.75),r:14};
+  for(let i=0;i<params.civDensity;i++){
+    entities.push({type:'civ',x:rnd(40,W-40),y:rnd(40,H-40),vx:rnd(-0.4,0.4),vy:rnd(-0.4,0.4),r:7,alive:true,id:'C'+i});
+  }
+  let hvtCount=2+Math.floor(Math.random()*2);
+  for(let i=0;i<hvtCount;i++){
+    entities.push({type:'hvt',x:rnd(W*0.4,W-60),y:rnd(40,H-40),vx:rnd(-0.3,0.3),vy:rnd(-0.3,0.3),r:9,alive:true,id:'T'+i});
+  }
+  as_={x:rnd(40,120),y:rnd(80,H-80),vx:0,vy:0,r:11,target:null,dwellRemaining:0,engageReady:false,mode:'patrol'};
+  metrics={ticks:0,engagements:0,aborted:0,violations:0};
+  logEntries=[];
+  addLog('System initialized. Principles active: '+PRINCIPLES.join(', '),'info');
+  renderMetrics();draw();
+}
+
+function addLog(msg,type='info'){
+  const t=metrics.ticks;
+  logEntries.unshift({msg:`[T${t}] ${msg}`,type});
+  if(logEntries.length>60)logEntries.pop();
+  const el=document.getElementById('log');
+  el.innerHTML=logEntries.slice(0,40).map(e=>`<div class="log-${e.type}">${e.msg}</div>`).join('');
+}
+
+function renderMetrics(){
+  document.getElementById('m-tick').textContent=metrics.ticks;
+  document.getElementById('m-engagements').textContent=metrics.engagements;
+  document.getElementById('m-aborted').textContent=metrics.aborted;
+  document.getElementById('m-violations').textContent=metrics.violations;
+  const total=metrics.engagements+metrics.aborted;
+  const comp=total===0?100:Math.round((metrics.engagements/(metrics.engagements+metrics.violations))*100);
+  const el=document.getElementById('m-compliance');
+  el.textContent=comp+'%';
+  el.style.color=comp>=80?'#4ade80':comp>=60?'#fbbf24':'#f87171';
+}
+
+function evaluateEngagement(hvt){
+  let checks={distinction:false,proportionality:false,necessity:false,precaution:false,intent:false};
+  let reasons=[];
+  checks.distinction=hvt.type==='hvt'&&hvt.alive;
+  if(!checks.distinction)reasons.push('DISTINCTION FAIL: target not confirmed combatant');
+  const civNear=entities.filter(e=>e.type==='civ'&&e.alive&&dist(e,hvt)<60).length;
+  checks.proportionality=(civNear/1)<params.propThresh;
+  if(!checks.proportionality)reasons.push(`PROPORTIONALITY FAIL: ${civNear} civs within 60px exceeds threshold`);
+  checks.necessity=dist(hvt,objective)<params.intentRadius*1.8;
+  if(!checks.necessity)reasons.push('NECESSITY FAIL: target not a required obstacle to objective');
+  checks.precaution=as_.dwellRemaining<=0;
+  if(!checks.precaution)reasons.push(`PRECAUTION: still verifying (${as_.dwellRemaining} ticks remain)`);
+  const inIntent=dist(hvt,objective)<params.intentRadius;
+  checks.intent=inIntent;
+  if(!checks.intent)reasons.push('CMDR INTENT FAIL: target outside authorized engagement zone');
+  return{checks,reasons,allPass:Object.values(checks).every(Boolean)};
+}
+
+function step(){
+  metrics.ticks++;
+  entities.forEach(e=>{
+    if(!e.alive)return;
+    e.x+=e.vx;e.y+=e.vy;
+    if(e.x<20||e.x>W-20)e.vx*=-1;
+    if(e.y<20||e.y>H-20)e.vy*=-1;
+    e.x=Math.max(20,Math.min(W-20,e.x));
+    e.y=Math.max(20,Math.min(H-20,e.y));
+    if(Math.random()<0.02){e.vx+=rnd(-0.15,0.15);e.vy+=rnd(-0.15,0.15);}
+    e.vx=Math.max(-0.8,Math.min(0.8,e.vx));
+    e.vy=Math.max(-0.8,Math.min(0.8,e.vy));
+  });
+  const aliveHVTs=entities.filter(e=>e.type==='hvt'&&e.alive);
+  if(aliveHVTs.length===0){addLog('All HVTs neutralized. Mission complete.','pass');stopSim();return;}
+  if(!as_.target||!as_.target.alive){
+    const candidates=aliveHVTs.filter(h=>dist(as_,h)<params.intentRadius*1.5);
+    if(candidates.length>0){
+      as_.target=candidates.reduce((a,b)=>dist(as_,a)<dist(as_,b)?a:b);
+      as_.dwellRemaining=params.dwellTicks;
+      as_.engageReady=false;as_.mode='approach';
+      addLog(`Target acquired: ${as_.target.id} — beginning precaution dwell`,'info');
+    }else{
+      as_.mode='patrol';
+      const tx=objective.x+rnd(-80,80),ty=objective.y+rnd(-80,80);
+      const ang=Math.atan2(ty-as_.y,tx-as_.x);
+      as_.vx=Math.cos(ang)*0.9;as_.vy=Math.sin(ang)*0.9;
+    }
+  }
+  if(as_.target&&as_.target.alive){
+    const d=dist(as_,as_.target);
+    if(d>30){const ang=Math.atan2(as_.target.y-as_.y,as_.target.x-as_.x);as_.vx=Math.cos(ang)*1.4;as_.vy=Math.sin(ang)*1.4;}
+    else{as_.vx*=0.7;as_.vy*=0.7;}
+    if(as_.dwellRemaining>0)as_.dwellRemaining--;
+    else as_.engageReady=true;
+    if(as_.engageReady&&d<35){
+      const eval_=evaluateEngagement(as_.target);
+      if(eval_.allPass){
+        as_.target.alive=false;metrics.engagements++;
+        addLog(`Engaged and neutralized ${as_.target.id} — all principles satisfied`,'pass');
+        as_.target=null;as_.engageReady=false;as_.mode='patrol';
+      }else{
+        const fp=eval_.reasons[0];
+        if(fp.startsWith('PROPORTIONALITY')){
+          metrics.aborted++;metrics.violations++;
+          addLog(`Engagement ABORTED: ${eval_.reasons[0]}`,'fail');
+          as_.target=null;as_.engageReady=false;as_.mode='patrol';
+        }else if(fp.startsWith('CMDR INTENT')){
+          metrics.aborted++;metrics.violations++;
+          addLog(`Engagement ABORTED: ${eval_.reasons[0]}`,'fail');
+          as_.target=null;as_.engageReady=false;as_.mode='patrol';
+        }else if(fp.startsWith('PRECAUTION')){
+          addLog('Precaution dwell in progress...','warn');
+        }else if(fp.startsWith('NECESSITY')){
+          addLog(`Repositioning — ${eval_.reasons[0]}`,'warn');
+          as_.engageReady=false;as_.dwellRemaining=20;
+        }else{
+          metrics.aborted++;
+          addLog(`Engagement held: ${eval_.reasons[0]}`,'warn');
+          as_.dwellRemaining=params.dwellTicks;as_.engageReady=false;
+        }
+      }
+    }
+  }
+  as_.x+=as_.vx;as_.y+=as_.vy;
+  as_.x=Math.max(15,Math.min(W-15,as_.x));
+  as_.y=Math.max(15,Math.min(H-15,as_.y));
+  if(metrics.ticks%60===0&&metrics.ticks>0)addLog(`Status: ${aliveHVTs.length} HVT(s) remaining, ${metrics.violations} violation(s)`,'info');
+  renderMetrics();
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0a0f1a';ctx.fillRect(0,0,W,H);
+  ctx.save();ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;
+  for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  ctx.restore();
+  ctx.save();ctx.strokeStyle='rgba(251,191,36,0.25)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.arc(objective.x,objective.y,params.intentRadius,0,Math.PI*2);ctx.stroke();
+  ctx.setLineDash([]);ctx.restore();
+  ctx.save();ctx.fillStyle='#f59e0b';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
+  ctx.fillRect(objective.x-14,objective.y-14,28,28);
+  ctx.fillStyle='#0a0f1a';ctx.fillText('OBJ',objective.x,objective.y+4);ctx.restore();
+  entities.forEach(e=>{
+    if(!e.alive)return;
+    ctx.save();
+    ctx.fillStyle=e.type==='civ'?'#16a34a':'#dc2626';
+    ctx.strokeStyle=e.type==='civ'?'#4ade80':'#f87171';
+    ctx.lineWidth=1;ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold 8px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(e.type==='civ'?'CIV':'HVT',e.x,e.y);ctx.restore();
+  });
+  if(as_){
+    ctx.save();
+    if(as_.target&&as_.target.alive){
+      ctx.strokeStyle='rgba(96,165,250,0.35)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+      ctx.beginPath();ctx.moveTo(as_.x,as_.y);ctx.lineTo(as_.target.x,as_.target.y);ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    if(as_.dwellRemaining>0&&as_.target){
+      const pct=1-(as_.dwellRemaining/params.dwellTicks);
+      ctx.strokeStyle='rgba(96,165,250,0.6)';ctx.lineWidth=2;
+      ctx.beginPath();ctx.arc(as_.x,as_.y,18,-Math.PI/2,-Math.PI/2+pct*Math.PI*2);ctx.stroke();
+    }
+    ctx.fillStyle='#2563eb';ctx.strokeStyle='#93c5fd';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(as_.x,as_.y-13);ctx.lineTo(as_.x+11,as_.y+8);ctx.lineTo(as_.x,as_.y+3);ctx.lineTo(as_.x-11,as_.y+8);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold 7px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('AS',as_.x,as_.y+1);ctx.restore();
+  }
+  ctx.save();ctx.fillStyle='rgba(10,15,26,0.82)';ctx.fillRect(6,6,178,PRINCIPLES.length*16+10);
+  PRINCIPLES.forEach((p,i)=>{
+    let color='#4ade80';
+    if(as_&&as_.target&&as_.target.alive){
+      const eval_=evaluateEngagement(as_.target);
+      const keys=['distinction','proportionality','necessity','precaution','intent'];
+      color=eval_.checks[keys[i]]?'#4ade80':'#f87171';
+    }
+    ctx.fillStyle=color;ctx.font='11px sans-serif';ctx.textAlign='left';
+    ctx.fillText((as_&&as_.target?'●':'○')+' '+p,12,20+i*16);
+  });
+  ctx.restore();
+}
+
+function loop(){step();draw();if(running)raf=requestAnimationFrame(loop);}
+
+function toggleSim(){
+  if(!running){
+    running=true;
+    document.getElementById('btn-run').textContent='Pause';
+    document.getElementById('btn-engage').disabled=false;
+    if(metrics.ticks===0)addLog('Simulation started','info');
+    loop();
+  }else{stopSim();}
+}
+
+function stopSim(){
+  running=false;if(raf)cancelAnimationFrame(raf);
+  document.getElementById('btn-run').textContent='Run simulation';
+  document.getElementById('btn-engage').disabled=true;
+}
+
+function resetSim(){
+  stopSim();resize();spawnEntities();
+  document.getElementById('btn-run').textContent='Run simulation';
+}
+
+function manualEngage(){
+  if(!as_||!as_.target||!as_.target.alive)return;
+  const eval_=evaluateEngagement(as_.target);
+  if(eval_.allPass){
+    as_.target.alive=false;metrics.engagements++;
+    addLog(`[MANUAL] Engaged ${as_.target.id} — principles met`,'pass');
+    as_.target=null;as_.dwellRemaining=0;as_.engageReady=false;
+  }else{
+    metrics.violations++;
+    addLog(`[MANUAL] Engagement OVERRIDDEN — violated: ${eval_.reasons[0]}`,'fail');
+    as_.target.alive=false;as_.target=null;as_.dwellRemaining=0;as_.engageReady=false;
+  }
+  renderMetrics();draw();
+}
+
+window.addEventListener('resize',()=>{resize();draw();});
+resize();spawnEntities();
+</script>
+</body>
+</html>

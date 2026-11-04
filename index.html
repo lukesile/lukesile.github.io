@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Luke Sile</title>
+<meta name="description" content="Luke Sile, Aerospace Engineering at the University of Michigan. Avionics, autonomy, and systems engineering.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+</style>
+<style>
+/* Layout: single-page academic portfolio. Photo banner with name, About with headshot, project entries as a vertical log, resume, contact. */
+:root{
+  --bg:#ffffff;
+  --bg-alt:#f3f5f8;
+  --ink:#0f1b2d;
+  --muted:#556176;
+  --rule:#dde2ea;
+  --link:#1b4fae;
+  --maize:#ffcb05;
+  --navy:#00274c;
+  --chip:#eaeef5;
+  --c-auto:#2459d6;
+  --c-hw:#a86a00;
+  --c-space:#7246d1;
+  --c-sys:#11845a;
+  --band:#00274c;
+  --on-c:#ffffff;
+  --band-ink:#e9eef6;
+  --band-muted:#a9bad3;
+  --band-line:rgba(255,255,255,.16);
+  --band-chip:rgba(255,255,255,.10);
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1320;--bg-alt:#121b2b;--ink:#e7ecf4;--muted:#9aa6bb;--rule:#24314a;--link:#8fb3ff;--chip:#1a2539;--on-c:#0c1320;--c-auto:#82a7ff;--c-hw:#f2c94c;--c-space:#b9a2ff;--c-sys:#55d6a5;--band:#0f2b52;--band-ink:#e9eef6;--band-muted:#a9bad3;--band-line:rgba(255,255,255,.16);--band-chip:rgba(255,255,255,.10);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1320;--bg-alt:#121b2b;--ink:#e7ecf4;--muted:#9aa6bb;--rule:#24314a;--link:#8fb3ff;--chip:#1a2539;--on-c:#0c1320;--c-auto:#82a7ff;--c-hw:#f2c94c;--c-space:#b9a2ff;--c-sys:#55d6a5;--band:#0f2b52;--band-ink:#e9eef6;--band-muted:#a9bad3;--band-line:rgba(255,255,255,.16);--band-chip:rgba(255,255,255,.10);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.6;margin:0}
+a{color:var(--link);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--maize);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h2{font-size:1.75rem;font-weight:700;font-variation-settings:"wdth" 112;letter-spacing:-.01em}
+h3{font-size:1.28rem;font-weight:700;font-variation-settings:"wdth" 108}
+p{margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.label{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* Hero */
+.hero{color:#fff;background:
+  repeating-linear-gradient(0deg,rgba(255,255,255,.045) 0 1px,transparent 1px 28px),
+  repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 28px),
+  linear-gradient(160deg,#003566 0%,#00274c 55%,#001a33 100%)}
+.hero .wrap{padding-block:64px 56px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:44px;align-items:center}
+.hero-text{display:grid;gap:16px;align-content:center}
+.hero .kicker{font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--maize)}
+.hero h1{font-size:clamp(2.7rem,6.4vw,4.6rem);font-weight:800;font-variation-settings:"wdth" 118;letter-spacing:-.02em}
+.hero .sub{font-size:1.2rem;max-width:34ch;color:#dfe6f1}
+.hero .sub strong{color:var(--maize);font-weight:600}
+.hero .meta{font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;color:#b9c5d8;display:flex;flex-wrap:wrap;gap:6px 18px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.35)}
+.hero .btn.ghost:hover{border-color:var(--maize)}
+.collage{display:grid;grid-template-columns:1.15fr 1fr;grid-template-rows:1fr 1fr;gap:12px;aspect-ratio:5/4;max-width:100%}
+.collage a{position:relative;display:block;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.18);background:#0a1626}
+.collage a:first-child{grid-row:span 2}
+.collage img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.collage a:hover img{transform:scale(1.04)}
+.collage a.me img{object-position:center 28%}
+.collage span{position:absolute;left:8px;bottom:8px;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;background:rgba(0,20,42,.82);color:#fff;padding:3px 8px;border-radius:4px}
+@media (prefers-reduced-motion: reduce){.collage img{transition:none}.collage a:hover img{transform:none}}
+
+/* Tools strip */
+.strip{background:var(--maize);color:#00274c;overflow:hidden;border-block:1px solid #e0b200}
+.strip-track{display:flex;width:max-content;animation:strip 38s linear infinite}
+.strip:hover .strip-track{animation-play-state:paused}
+.strip ul{display:flex;gap:0;margin:0;padding:12px 0;list-style:none}
+.strip li{font-family:var(--display);font-variation-settings:"wdth" 112;font-weight:700;font-size:1rem;padding-inline:18px;white-space:nowrap;display:flex;align-items:center;gap:18px}
+.strip li::after{content:"";width:6px;height:6px;border-radius:50%;background:#00274c;opacity:.5}
+@keyframes strip{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.strip-track{animation:none;flex-wrap:wrap;width:auto}.strip-track ul[aria-hidden]{display:none}.strip ul{flex-wrap:wrap;padding-inline:max(16px,env(safe-area-inset-left,0px))}}
+.traits{font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--c-hw)}
+
+/* Nav */
+nav.top{border-bottom:1px solid var(--rule);background:var(--bg);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
+nav.top .links{display:flex;gap:4px 20px;flex-wrap:wrap}
+nav.top a{color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
+nav.top a:hover{color:var(--link)}
+nav.top .links a{padding-block:4px}
+nav.top .links a[aria-current="true"]{color:var(--ink);box-shadow:inset 0 -2px 0 var(--maize)}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 .92rem var(--body);padding:9px 16px;border-radius:6px;border:1px solid var(--navy);background:var(--maize);color:#00274c;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(.96)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+.btn.ghost:hover{border-color:var(--ink)}
+
+section{padding-block:72px}
+section + section{border-top:1px solid var(--rule)}
+section.band,section.band + section{border-top:0}
+.sec-head{display:grid;gap:6px;margin-bottom:36px}
+
+/* About */
+.about{display:grid;grid-template-columns:300px minmax(0,1fr);gap:48px;align-items:start}
+.portrait{margin:0;display:grid;gap:10px}
+.portrait img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center 30%;border-radius:4px;display:block}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.9rem;margin:0}
+.facts dt{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.facts dd{margin:0}
+.prose{display:grid;gap:16px;max-width:64ch}
+.prose p{font-size:1.05rem}
+.now{margin-top:8px;display:grid;gap:0;border-top:1px solid var(--rule)}
+.now li{list-style:none;display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:11px 0;border-bottom:1px solid var(--rule);font-size:.95rem}
+.now ul{margin:0;padding:0}
+.now .when{font-family:var(--mono);font-size:.8rem;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+
+/* Projects */
+.projects{display:grid;gap:64px}
+.proj{display:grid;grid-template-columns:220px minmax(0,1fr);gap:36px}
+.proj aside{display:grid;gap:14px;align-content:start;font-size:.88rem}
+.proj aside .label{display:block;margin-bottom:2px}
+.proj .body{display:grid;gap:14px;min-width:0}
+.proj .role{color:var(--muted);font-size:.95rem}
+.proj ul.pts{margin:0;padding-left:1.15em;display:grid;gap:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--mono);font-size:.74rem;padding:3px 8px;border-radius:4px;background:var(--chip);color:var(--ink)}
+.status{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;color:var(--muted)}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:#2e9e5b}
+.status.done::before{background:var(--muted)}
+figure{margin:0}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.shots img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;display:block;border:1px solid var(--rule)}
+figcaption{font-size:.82rem;color:var(--muted);margin-top:6px}
+.tree{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tree div{border:1px solid var(--rule);border-radius:6px;padding:12px 14px;background:var(--bg-alt);display:grid;gap:4px;align-content:start}
+.tree b{font-family:var(--display);font-variation-settings:"wdth" 108;font-size:1rem}
+.tree code{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.tree span{font-size:.88rem}
+.sim{border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:#0f1117}
+.sim-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;background:var(--bg-alt);border-bottom:1px solid var(--rule);font-size:.85rem}
+.sim iframe{display:block;width:100%;height:770px;border:0}
+.pull{font-family:var(--display);font-variation-settings:"wdth" 108;font-weight:600;font-size:1.2rem;border-left:3px solid var(--maize);padding-left:14px;max-width:46ch}
+
+.results{border:1px solid var(--rule);border-radius:6px;overflow-x:auto;font-size:.9rem}
+.results .r{display:grid;grid-template-columns:minmax(140px,1.4fr) repeat(3,minmax(84px,1fr));gap:12px;padding:9px 14px;border-top:1px solid var(--rule);font-variant-numeric:tabular-nums}
+.results .r:first-child{border-top:0}
+.results .pick{background:color-mix(in srgb,var(--c-sys) 9%,transparent)}
+.results .head{background:var(--bg-alt);font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.results .good{color:#23824a;font-weight:600}
+:root[data-theme="dark"] .results .good{color:#5fd08f}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .results .good{color:#5fd08f}}
+img.wide{width:100%;height:auto;display:block;border-radius:4px;border:1px solid var(--rule)}
+.earlier{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.earlier div{border-top:2px solid var(--ink);padding-top:12px;display:grid;gap:6px}
+.earlier p{font-size:.93rem}
+
+/* Skills */
+.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.skills div{display:grid;gap:10px;align-content:start}
+
+/* Contact */
+.contact{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:start}
+.cards{display:grid;gap:10px}
+.crow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px;border:1px solid var(--rule);border-radius:6px;background:var(--bg)}
+.crow .v{font-family:var(--mono);font-size:.92rem;word-break:break-all}
+.copy{font:500 .8rem var(--body);background:transparent;border:1px solid var(--rule);color:var(--ink);border-radius:5px;padding:5px 10px;cursor:pointer}
+.copy:hover{border-color:var(--ink)}
+.note{font-size:.82rem;color:var(--muted)}
+footer{padding-block:28px;border-top:1px solid var(--rule);font-size:.82rem;color:var(--muted)}
+
+/* Category colors */
+.cat-auto{--c:var(--c-auto)} .cat-hw{--c:var(--c-hw)} .cat-space{--c:var(--c-space)} .cat-sys{--c:var(--c-sys)}
+.tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;font-weight:500;padding:3px 9px;border-radius:999px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);width:max-content}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.proj aside{border-top:3px solid var(--c,var(--rule));padding-top:14px}
+.proj .body h3{color:var(--ink)}
+.proj .pts li::marker{color:var(--c)}
+.proj .chip{background:color-mix(in srgb,var(--c) 9%,var(--chip))}
+
+/* Filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
+.fbtn{font:500 .88rem var(--body);padding:7px 14px;border-radius:999px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.fbtn:hover{border-color:var(--c,var(--ink))}
+.fbtn[data-f]:not([data-f="all"])::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.fbtn[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:var(--on-c)}
+.fbtn[aria-pressed="true"]::before{background:var(--on-c)!important}
+.fbtn[data-f="all"][aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.fcount{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-left:auto}
+
+/* Overview grid */
+.overview{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:72px}
+.card{display:grid;grid-template-rows:auto 1fr;text-decoration:none;color:var(--ink);border:1px solid var(--rule);border-radius:10px;overflow:hidden;background:var(--bg);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px -14px color-mix(in srgb,var(--c) 70%,transparent);border-color:color-mix(in srgb,var(--c) 55%,var(--rule))}
+@media (prefers-reduced-motion: reduce){.card,.card:hover{transition:none;transform:none}}
+.thumb{aspect-ratio:16/10;max-width:100%;overflow:hidden;position:relative;background:var(--bg-alt)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb.ph{display:flex;align-items:flex-end;padding:14px;color:#fff;background:
+  repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0 1px,transparent 1px 22px),
+  repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 1px,transparent 1px 22px),
+  linear-gradient(135deg,color-mix(in srgb,var(--c) 85%,#00142a),#00142a)}
+.thumb.ph span{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;line-height:1.4}
+.thumb.ph b{display:block;font-family:var(--display);font-variation-settings:"wdth" 118;font-size:1.35rem;letter-spacing:-.01em;text-transform:none;margin-bottom:2px}
+.card .cb{padding:12px 14px 14px;display:grid;gap:8px;align-content:start}
+.card h4{margin:0;font-family:var(--display);font-variation-settings:"wdth" 106;font-size:1.02rem;line-height:1.25;text-wrap:balance}
+.card .st{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+
+/* Lightbox */
+[hidden]{display:none!important}
+.zoom{cursor:zoom-in}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(3,10,20,.88);display:grid;place-items:center;padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lb figure{display:grid;gap:10px;max-width:min(1200px,100%);max-height:100%}
+.lb img{max-width:100%;max-height:82vh;object-fit:contain;border-radius:6px;background:#fff;margin:0 auto}
+.lb figcaption{color:#dfe6f1;font-size:.92rem;text-align:center;margin:0}
+.lb-close{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));font:600 .9rem var(--body);background:var(--maize);color:#00274c;border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
+
+/* Sim launcher */
+.sim-launch{position:relative;aspect-ratio:1302/543;max-width:100%;background:#0a0f1a url("img/asimov-sim.jpg") center/cover no-repeat;display:grid;place-items:center}
+.sim-launch::before{content:"";position:absolute;inset:0;background:rgba(5,10,20,.45)}
+.sim-launch .btn{position:relative;font-size:1rem;padding:12px 20px}
+
+/* Navy bands */
+.band{background:var(--band);color:var(--band-ink)}
+.band h2{color:var(--maize)}
+.band h3{color:#fff}
+.band .label,.band .note{color:var(--band-muted)}
+.band .chip{background:var(--band-chip);color:var(--band-ink)}
+.band a{color:var(--maize)}
+.band .crow{background:rgba(255,255,255,.05);border-color:var(--band-line)}
+.band .copy{color:var(--band-ink);border-color:var(--band-line)}
+.band .copy:hover{border-color:var(--maize)}
+.band .btn.ghost{color:var(--band-ink);border-color:var(--band-line)}
+.band .btn.ghost:hover{border-color:var(--maize)}
+.skills > div{background:rgba(255,255,255,.05);border:1px solid var(--band-line);border-radius:10px;padding:18px}
+.skills h3{display:flex;align-items:center;gap:8px}
+.skills h3::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c)}
+footer.band{border-top:1px solid var(--band-line);color:var(--band-muted)}
+
+/* Back to top */
+.totop{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;font:600 .85rem var(--body);background:var(--maize);color:#00274c;border:1px solid var(--navy);border-radius:999px;padding:10px 16px;cursor:pointer;box-shadow:0 6px 18px -8px rgba(0,0,0,.5)}
+
+@media (max-width:820px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
+  .about,.proj,.contact{grid-template-columns:minmax(0,1fr);gap:24px}
+  .portrait{max-width:300px}
+  .proj aside{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .skills,.tree{grid-template-columns:minmax(0,1fr)}
+  .sim iframe{height:1040px}
+  .overview{margin-bottom:48px}
+}
+@media (max-width:560px){
+  section{padding-block:52px}
+  .hero .wrap{padding-block:44px 40px}
+  .shots,.earlier{grid-template-columns:minmax(0,1fr)}
+  .now li{grid-template-columns:minmax(0,1fr);gap:2px}
+  nav.top .resume-nav{display:none}
+  .sim iframe{height:1180px}
+  .overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card h4{font-size:.92rem}
+  .card .cb{padding:10px}
+  .thumb.ph b{font-size:1.05rem}
+  .thumb.ph span{font-size:.66rem}
+  .fcount{margin-left:0;width:100%}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-text">
+      <span class="kicker">Aerospace Engineering &middot; University of Michigan</span>
+      <h1>Luke Sile</h1>
+      <p class="sub">I build the <strong>electronics, avionics, and autonomy</strong> that make drones fly.</p>
+      <div class="ctas"><button class="btn" type="button" data-resume>Download resume</button><a class="btn ghost" href="#projects">View projects</a></div>
+      <span class="meta"><span>Ann Arbor, MI</span><span>B.S.E. expected Dec 2027</span><span>U.S. Citizen, clearance eligible</span></span>
+    </div>
+    <div class="collage">
+      <a href="#about" class="me"><img src="img/headshot.jpg" alt="Portrait of Luke Sile"></a>
+      <a href="#iral"><img src="img/iral-bench.jpg" alt="Robotic arm and quadcopter on the bench at iRaL"><span>iRaL UAV lab</span></a>
+      <a href="#cubesat"><img src="img/cubesat-3d.jpg" alt="3D render of the CubeSat circuit board"><span>CubeSat PCB</span></a>
+    </div>
+  </div>
+</header>
+<div class="strip" aria-label="Tools I use"><div class="strip-track"><ul><li>Altium</li><li>PCB design</li><li>Embedded C/C++</li><li>Python</li><li>MATLAB</li><li>SOLIDWORKS</li><li>CATIA</li><li>Siemens NX</li><li>Star-CCM+</li><li>LiDAR</li><li>Stereo vision</li><li>Requirements & V&amp;V</li><li>HITL / SITL testing</li><li>Flight test</li></ul><ul aria-hidden="true"><li>Altium</li><li>PCB design</li><li>Embedded C/C++</li><li>Python</li><li>MATLAB</li><li>SOLIDWORKS</li><li>CATIA</li><li>Siemens NX</li><li>Star-CCM+</li><li>LiDAR</li><li>Stereo vision</li><li>Requirements & V&amp;V</li><li>HITL / SITL testing</li><li>Flight test</li></ul></div></div>
+
+
+<nav class="top" aria-label="Sections">
+  <div class="wrap">
+    <div class="links">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="btn resume-nav" type="button" data-resume>Download resume</button>
+  </div>
+</nav>
+
+<main>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head"><span class="label">Projects</span><h2>Selected work</h2></div>
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button class="fbtn" type="button" data-f="all" aria-pressed="true">All</button>
+      <button class="fbtn cat-auto" type="button" data-f="auto" aria-pressed="false">Autonomy</button>
+      <button class="fbtn cat-hw" type="button" data-f="hw" aria-pressed="false">Hardware</button>
+      <button class="fbtn cat-space" type="button" data-f="space" aria-pressed="false">Space</button>
+      <button class="fbtn cat-sys" type="button" data-f="sys" aria-pressed="false">Systems</button>
+      <span class="fcount" id="fcount" aria-live="polite">8 projects</span>
+    </div>
+    <div class="overview" id="overview">
+      <a class="card cat-hw" href="#iral" data-cat="hw auto">
+        <div class="thumb"><img src="img/iral-bench.jpg" alt="Robotic arm and quadcopter on a lab bench" loading="lazy"></div>
+        <div class="cb"><span class="tag cat-hw">Hardware</span><h4>Omnidirectional UAV and robotic arm</h4><span class="st">iRaL · May 2026 to now</span></div>
+      </a>
+      <a class="card cat-auto" href="#nightcrawl" data-cat="auto">
+        <div class="thumb ph" aria-hidden="true"><span><b>Nightcrawl</b>GPS-denied · low light</span></div>
+        <div class="cb"><span class="tag cat-auto">Autonomy</span><h4>Operation Nightcrawl</h4><span class="st">MDT · Aug 2026 to now</span></div>
+      </a>
+      <a class="card cat-hw" href="#mcloud" data-cat="hw sys">
+        <div class="thumb ph" aria-hidden="true"><span><b>M-CLOUD</b>Pixhawk 6X + Jetson</span></div>
+        <div class="cb"><span class="tag cat-hw">Hardware</span><h4>M-CLOUD cooperative ISR</h4><span class="st">X88 · Sep 2026 to now</span></div>
+      </a>
+      <a class="card cat-space" href="#cubesat" data-cat="space hw">
+        <div class="thumb"><img src="img/cubesat-3d.jpg" alt="3D render of the CubeSat circuit board" loading="lazy"></div>
+        <div class="cb"><span class="tag cat-space">Space</span><h4>1U CubeSat</h4><span class="st">BSA · Flown, May 2026</span></div>
+      </a>
+      <a class="card cat-sys" href="#asimov" data-cat="sys auto">
+        <div class="thumb"><img src="img/asimov-sim.jpg" alt="Still from the ASIMOV constraint simulation" loading="lazy"></div>
+        <div class="cb"><span class="tag cat-sys">Systems</span><h4>DARPA ASIMOV</h4><span class="st">MDT · Project Lead, 2026</span></div>
+      </a>
+      <a class="card cat-hw" href="#hovercraft" data-cat="hw">
+        <div class="thumb"><img src="img/hover-cfd.jpg" alt="Star-CCM+ velocity field around a hull" loading="lazy"></div>
+        <div class="cb"><span class="tag cat-hw">Hardware</span><h4>RC hovercraft</h4><span class="st">Avionics Lead · 2025</span></div>
+      </a>
+      <a class="card cat-auto" href="#swarm" data-cat="auto">
+        <div class="thumb ph" aria-hidden="true"><span><b>Swarm</b>Multi-agent autonomy</span></div>
+        <div class="cb"><span class="tag cat-auto">Autonomy</span><h4>Swarm Drone subteam</h4><span class="st">MDT · Founding class</span></div>
+      </a>
+      <a class="card cat-space" href="#rocketry" data-cat="space">
+        <div class="thumb ph" aria-hidden="true"><span><b>1,400 ft</b>Tripoli L1 · 4 ft rockets</span></div>
+        <div class="cb"><span class="tag cat-space">Space</span><h4>High-power rocketry</h4><span class="st">Co-Founder · 2025 to now</span></div>
+      </a>
+    </div>
+    <div class="projects">
+
+      <article class="proj cat-hw" id="iral" data-cat="hw auto">
+        <aside>
+          <div class="tags"><span class="tag cat-hw">Hardware</span><span class="tag cat-auto">Autonomy</span></div>
+          <div><span class="label">Where</span>Intelligent Robotics and Autonomy Lab, U-M</div>
+          <div><span class="label">Role</span>Research Assistant</div>
+          <div><span class="label">Dates</span>May 2026 to present</div>
+          <div><span class="label">Partner</span>Michigan State University</div>
+        </aside>
+        <div class="body">
+          <span class="status">Active</span>
+          <h3>Omnidirectional UAV and robotic arm payload</h3>
+          <p class="role">Hardware and perception integration for the lab's third-generation over-actuated UAV, built to hover in any orientation.</p>
+          <ul class="pts">
+            <li>Design structural and mechanical parts in SOLIDWORKS, assemble prototype hardware, and run subsystem integration and validation tests ahead of autonomous flight experiments.</li>
+            <li>Integrated, calibrated, and evaluated LiDAR and stereo camera perception for localization, mapping, and autonomous navigation.</li>
+            <li>Own hardware and software integration of a newly funded robotic arm payload with a Michigan State University lab: a tree-shaking end effector for automated apple harvesting.</li>
+          </ul>
+          <div class="chips"><span class="chip">SOLIDWORKS</span><span class="chip">LiDAR</span><span class="chip">Stereo vision</span><span class="chip">Electromechanical integration</span><span class="chip">Flight test</span></div>
+          <div class="shots">
+            <figure><img src="img/iral-bench.jpg" alt="3D-printed robotic arm on a lab bench next to a quadcopter and a ZED Mini stereo camera box" loading="lazy"><figcaption>On the bench at iRaL: robotic arm prototype, test quadcopter, and a ZED Mini stereo camera.</figcaption></figure>
+            <figure><img src="img/morphquad-poster.jpg" alt="iRaL research poster for MorphQuad, a morphable quadrotor" loading="lazy"><figcaption>Lab context: iRaL's MorphQuad poster on morphable quadrotors for maneuverability, manipulation, and resiliency.</figcaption></figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj cat-auto" id="nightcrawl" data-cat="auto">
+        <aside>
+          <div class="tags"><span class="tag cat-auto">Autonomy</span></div>
+          <div><span class="label">Where</span>Michigan Defense Tech</div>
+          <div><span class="label">Role</span>Core team member</div>
+          <div><span class="label">Dates</span>Aug 2026 to present</div>
+          <div><span class="label">Sponsor</span>AG3</div>
+          <div><span class="label">Testing</span>Mcity and indoor courses</div>
+        </aside>
+        <div class="body">
+          <span class="status">Active</span>
+          <h3>Operation Nightcrawl: autonomous flight in the dark</h3>
+          <p class="role">By April 2027, AG3's drone will autonomously navigate, map, and detect targets in a dark, GPS-denied space like a tunnel or parking structure.</p>
+          <p>Militaries, first responders, and inspectors need drones that work underground, indoors, and in collapsed buildings, where GPS and good lighting disappear. The 13-person team covers autonomy, sensing and detection, systems integration, mission software, and strategy.</p>
+          <div class="tree" aria-label="Project phases">
+            <div><code>Fall 2026</code><b>Navigate without GPS</b><span>Low-light flight, SLAM mapping, obstacle avoidance. Indoor navigation demo, dark tunnel run, and a 3D map of the test space.</span></div>
+            <div><code>Winter 2027</code><b>Find targets on its own</b><span>Mission planning, onboard object detection, autonomous exploration, and an operator dashboard. Autonomous search mission with live detection.</span></div>
+            <div><code>Apr 2027</code><b>Integrated demo</b><span>Final integrated demonstration for AG3, with software built to scale to swarms.</span></div>
+          </div>
+          <div class="chips"><span class="chip">GPS-denied navigation</span><span class="chip">SLAM</span><span class="chip">VIO</span><span class="chip">PX4</span><span class="chip">Low-light sensing</span><span class="chip">Object detection</span></div>
+        </div>
+      </article>
+
+      <article class="proj cat-sys" id="asimov" data-cat="sys auto">
+        <aside>
+          <div class="tags"><span class="tag cat-sys">Systems</span><span class="tag cat-auto">Autonomy</span></div>
+          <div><span class="label">Where</span>Michigan Defense Tech</div>
+          <div><span class="label">Role</span>Project Lead, team of 6</div>
+          <div><span class="label">Dates</span>Jan to May 2026</div>
+          <div><span class="label">Program</span>DARPA STO, ASIMOV</div>
+        </aside>
+        <div class="body">
+          <span class="status done">Completed</span>
+          <h3>DARPA ASIMOV: benchmarks for ethical autonomy</h3>
+          <p class="role">ASIMOV (Autonomy Standards and Ideals with Military Operational Values) asks how you objectively measure whether an autonomous system behaves ethically in military operations.</p>
+          <p class="pull">We aren't building the autonomous system. We're building the ruler it gets measured with.</p>
+          <ul class="pts">
+            <li>Led the team and co-authored the System Requirements Document, turning military operational values into traceable DT/OT requirements across Level 0, 1, and 2.</li>
+            <li>Took the project through a System Requirements Review covering stakeholder analysis, requirement decomposition in MagicDraw, FMEA, and a conformance plan.</li>
+            <li>Built simulation testbeds that apply Law of Armed Conflict and Rules of Engagement logic to score autonomous agent behavior.</li>
+          </ul>
+          <div class="tree" aria-label="Requirement pillars">
+            <div><code>L0-001 &middot; L0-002</code><b>Measurement</b><span>Score a scenario's ethical difficulty and a system's ethical readiness, separately and repeatably.</span></div>
+            <div><code>L0-003 &middot; L0-005</code><b>Values &amp; Intent</b><span>Encode military operational values and commander's intent into what gets evaluated.</span></div>
+            <div><code>L0-004 &middot; L0-009</code><b>Governance</b><span>A common evaluation language for DT/OT, with ethical, legal, and societal review built in.</span></div>
+          </div>
+          <div class="sim">
+            <div class="sim-bar"><span><strong>Try it:</strong> constraint simulation. Press Run, then adjust civilian density or the proportionality threshold.</span><span class="label">Interactive</span></div>
+            <div class="sim-launch" id="sim-slot"><button class="btn" type="button" id="sim-go">Launch simulation</button></div>
+          </div>
+          <div class="chips"><span class="chip">Requirements engineering</span><span class="chip">MagicDraw</span><span class="chip">FMEA</span><span class="chip">DT/OT</span><span class="chip">Python</span><span class="chip">Simulation</span></div>
+        </div>
+      </article>
+
+      <article class="proj cat-hw" id="mcloud" data-cat="hw sys">
+        <aside>
+          <div class="tags"><span class="tag cat-hw">Hardware</span><span class="tag cat-sys">Systems</span></div>
+          <div><span class="label">Where</span>U-M X88 program</div>
+          <div><span class="label">Role</span>Responsible Engineer, Flight Computer (Controls)</div>
+          <div><span class="label">Dates</span>Sep 2026 to present</div>
+          <div><span class="label">Sponsor</span>Collins Aerospace (RTX)</div>
+          <div><span class="label">Aircraft</span>5 kg MTOW fixed-wing</div>
+        </aside>
+        <div class="body">
+          <span class="status">Active</span>
+          <h3>M-CLOUD: cooperative ISR with two air vehicles</h3>
+          <p class="role">Michigan Collins Launchable Operational Unmanned Drone. An autonomous fixed-wing search aircraft and COTS quadcopters work with a ground station so an operator can task and confirm targets.</p>
+          <ul class="pts">
+            <li>Responsible engineer for the fixed-wing flight computer on the Controls team, making sure it has the ports and processing to connect the servos, sensors, telemetry radio, and companion computer my teammates own.</li>
+            <li>Ran the flight computer trade study: screened four autopilots against six go/no-go constraints, including manual RC takeover within 1 s, at least 6 PWM outputs, 0 to 40 &deg;C operation, and delivery before the build window.</li>
+            <li>Weighted five criteria by pairwise comparison (reliability 30%, interfacing 25%, firmware 20%, cost 15%, mass 10%), scored each option with a weighted sum and TOPSIS, and checked the result under three alternate weightings.</li>
+            <li>Selected the Pixhawk 6X on a Jetson Orin Nano baseboard: triple IMUs, an independent IO processor for override, Ethernet to the onboard Jetson, and $0 marginal cost from team inventory. The Pixhawk 6C Mini stays as the backup.</li>
+            <li>Decomposed Level 0 mission requirements into traceable subsystem requirements for autonomy, communications, and the ground station, including a 250 m line-of-sight link and full mission data logging.</li>
+          </ul>
+          <div class="results" role="table" aria-label="Flight computer trade study results">
+            <div class="r head" role="row"><span role="columnheader">Flight computer option</span><span role="columnheader">Weighted score</span><span role="columnheader">TOPSIS</span><span role="columnheader">Mass</span></div>
+            <div class="r pick" role="row"><span role="cell"><strong>Pixhawk 6X + Jetson baseboard</strong> &middot; selected</span><span role="cell" class="good">4.70</span><span role="cell" class="good">0.829</span><span role="cell">203 g*</span></div>
+            <div class="r" role="row"><span role="cell">Pixhawk 6C Mini &middot; backup</span><span role="cell">4.20</span><span role="cell">0.662</span><span role="cell">39 g</span></div>
+            <div class="r" role="row"><span role="cell">CUAV X7+</span><span role="cell">3.60</span><span role="cell">0.607</span><span role="cell">101 g</span></div>
+            <div class="r" role="row"><span role="cell">Kakute H743-Wing</span><span role="cell">3.00</span><span role="cell">0.265</span><span role="cell">28 g</span></div>
+          </div>
+          <p class="note">*Includes the Jetson Orin Nano, heatsink, and SSD. The other options would need a separate companion computer for onboard detection.</p>
+          <div class="chips"><span class="chip">Pixhawk 6X</span><span class="chip">Jetson Orin Nano</span><span class="chip">PX4 / ArduPilot</span><span class="chip">Trade studies</span><span class="chip">TOPSIS</span><span class="chip">Requirements decomposition</span><span class="chip">MAVLink telemetry</span></div>
+        </div>
+      </article>
+
+      <article class="proj cat-space" id="cubesat" data-cat="space hw">
+        <aside>
+          <div class="tags"><span class="tag cat-space">Space</span><span class="tag cat-hw">Hardware</span></div>
+          <div><span class="label">Where</span>Black Students in Aerospace</div>
+          <div><span class="label">Role</span>Avionics &amp; Power Systems Engineer</div>
+          <div><span class="label">Dates</span>Jan to May 2026</div>
+          <div><span class="label">Flight</span>Tethered balloon</div>
+        </aside>
+        <div class="body">
+          <span class="status done">Flown</span>
+          <h3>1U CubeSat: power, avionics, and flight code</h3>
+          <p class="role">Designed, built, and tested my own 1U CubeSat-format system through BSA's CubeSat Demonstration Program, from requirements through a successful tethered balloon flight.</p>
+          <ul class="pts">
+            <li>Designed the electrical power system: an L78 linear regulator stepping a 9 V battery down to 5 V, with input and output capacitors sized from the datasheet, and a 3.3 V rail for the sensor. Hand-calculated worst-case current draw, regulator efficiency, and battery life.</li>
+            <li>Laid out a custom PCB in Altium around an Adafruit Feather RP2040 Adalogger, a BMP388 pressure and temperature sensor on I2C, and an RGB status LED. Validated on a breadboard first, then continuity-tested the fabricated board before assembly.</li>
+            <li>Wrote and unit-tested the flight code in C++: logs sensor data to microSD at 1 Hz or faster, drives the status LED, handles errors, and writes its own log file so it runs untethered from a computer.</li>
+            <li>Modeled the 3D-printed structure in Siemens NX with the PCB imported from Altium, and verified the system against its requirements: under 250 g, 1U form factor, and 20 minutes of operation in flight conditions.</li>
+          </ul>
+          <figure><img class="wide" src="img/cubesat-3d.jpg" alt="3D render of the CubeSat PCB with the Feather RP2040, BMP388 sensor, L78 regulator, capacitors, and terminal block" loading="lazy"><figcaption>3D render of the finished board design, with the Feather RP2040, BMP388, L78 regulator, and filter capacitors.</figcaption></figure>
+          <div class="shots">
+            <figure><img src="img/cubesat-schematic.jpg" alt="Altium schematic: 9 V battery through an L78 regulator to the RP2040 Feather, BMP388 sensor on I2C, and an RGB status LED" loading="lazy"><figcaption>Schematic: 9 V in, L78 regulator to 5 V VBUS, BMP388 on the 3.3 V rail and I2C, RGB LED on three digital pins.</figcaption></figure>
+            <figure><img src="img/cubesat-pcb.jpg" alt="Two-layer PCB layout in Altium with the Feather, BMP388, regulator, capacitors, LED, and resistors" loading="lazy"><figcaption>Two-layer board layout in Altium, top traces in red and bottom in blue.</figcaption></figure>
+          </div>
+          <div class="chips"><span class="chip">Altium</span><span class="chip">PCB design</span><span class="chip">Power regulation</span><span class="chip">RP2040</span><span class="chip">I2C</span><span class="chip">Embedded C++</span><span class="chip">Siemens NX</span><span class="chip">Requirements validation</span></div>
+        </div>
+      </article>
+
+      <article class="proj cat-auto" id="swarm" data-cat="auto">
+        <aside>
+          <div class="tags"><span class="tag cat-auto">Autonomy</span></div>
+          <div><span class="label">Where</span>Michigan Defense Tech</div>
+          <div><span class="label">Role</span>Founding class member</div>
+        </aside>
+        <div class="body">
+          <h3>Swarm Drone subteam</h3>
+          <p>Member of the founding class of MDT's Swarm Drone subteam, working on decentralized multi-agent UAV autonomy and a development pipeline that moves from simulation to flight.</p>
+          <div class="chips"><span class="chip">Multi-agent autonomy</span><span class="chip">Sim-to-flight</span></div>
+        </div>
+      </article>
+
+      <article class="proj cat-space" id="rocketry" data-cat="space">
+        <aside>
+          <div class="tags"><span class="tag cat-space">Space</span></div>
+          <div><span class="label">Where</span>Khajra Model Rocketry</div>
+          <div><span class="label">Role</span>Co-Founder &amp; Outreach Lead</div>
+          <div><span class="label">Dates</span>Apr 2025 to present</div>
+        </aside>
+        <div class="body">
+          <h3>High-power rocketry club</h3>
+          <p>Co-founded a student high-power rocketry organization that flies 4 ft rockets to about 1,400 ft apogee. I coordinate Tripoli Level 1 certification and launch operations.</p>
+          <div class="chips"><span class="chip">Tripoli L1</span><span class="chip">Launch operations</span></div>
+        </div>
+      </article>
+
+      <article class="proj cat-hw" id="hovercraft" data-cat="hw">
+        <aside>
+          <div class="tags"><span class="tag cat-hw">Hardware</span></div>
+          <div><span class="label">Where</span>U-M Aerospace, ENGR 100 / AERO 205</div>
+          <div><span class="label">Role</span>Avionics Lead</div>
+          <div><span class="label">Dates</span>Jan to May 2025</div>
+        </aside>
+        <div class="body">
+          <span class="status done">Completed</span>
+          <h3>RC hovercraft: electronics, CFD, and a motor mount redesign</h3>
+          <p class="role">Led avionics on a team-built RC hovercraft and co-led its CATIA design and laser-cut fabrication.</p>
+          <ul class="pts">
+            <li>Designed, built, and tested the electronics. Wrote the Arduino control code, which reads two RC receiver channels to drive the steering servo and motor throttle, with a hardware kill switch and navigation lights.</li>
+            <li>Simulated a hemispherical hull in a 24 in wind tunnel in Star-CCM+ to see where the flow accelerates and what loads act on the craft.</li>
+            <li>Ran FEA in CATIA on the plexiglass motor mount under 1.5 N of thrust, then redesigned it to cut deflection in half without raising stress or mass. The redesign beat all three targets.</li>
+          </ul>
+          <div class="results" role="table" aria-label="Motor mount redesign results">
+            <div class="r head" role="row"><span role="columnheader">Motor mount</span><span role="columnheader">Original</span><span role="columnheader">Redesign</span><span role="columnheader">Change</span></div>
+            <div class="r" role="row"><span role="cell">Max displacement</span><span role="cell">0.0145 in</span><span role="cell">0.00471 in</span><span role="cell" class="good">&minus;68%</span></div>
+            <div class="r" role="row"><span role="cell">Max von Mises stress</span><span role="cell">2.41 MPa</span><span role="cell">1.59 MPa</span><span role="cell" class="good">&minus;34%</span></div>
+            <div class="r" role="row"><span role="cell">Mass</span><span role="cell">3.32 g</span><span role="cell">3.03 g</span><span role="cell" class="good">&minus;9%</span></div>
+          </div>
+          <div class="shots">
+            <figure><img src="img/hover-fea-before.jpg" alt="CATIA von Mises stress plot of the original plexiglass motor mount" loading="lazy"><figcaption>Original mount: peak stress 2.41 MPa at the glued base.</figcaption></figure>
+            <figure><img src="img/hover-fea-after.jpg" alt="CATIA von Mises stress plot of the redesigned motor mount" loading="lazy"><figcaption>Redesigned mount: peak stress 1.59 MPa, with a third of the deflection.</figcaption></figure>
+          </div>
+          <figure><img class="wide" src="img/hover-cfd.jpg" alt="Star-CCM+ velocity vectors around a hemispherical hull in a wind tunnel" loading="lazy"><figcaption>Star-CCM+ velocity field around the hull: flow speeds up to about 19 m/s over the top.</figcaption></figure>
+          <div class="chips"><span class="chip">Arduino</span><span class="chip">Embedded C++</span><span class="chip">CATIA FEA</span><span class="chip">Star-CCM+</span><span class="chip">Laser cutting</span></div>
+        </div>
+      </article>
+
+      <div class="cat-hw" data-cat="hw">
+        <span class="label" style="display:block;margin-bottom:14px">Earlier coursework</span>
+        <div class="earlier" style="grid-template-columns:minmax(0,1fr);max-width:64ch">
+          <div><h3 style="font-size:1.05rem">Lesher Nomad landing gear analysis</h3><p>Built free body diagrams for touchdown cases, calculated peak stresses, and specified materials to meet structural requirements. Oct to Dec 2025.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <figure class="portrait">
+      <img src="img/headshot.jpg" alt="Portrait of Luke Sile" width="600" height="900">
+      <dl class="facts">
+        <dt>Major</dt><dd>Aerospace Engineering</dd>
+        <dt>Minor</dt><dd>Electrical Engineering (Electromagnetics)</dd>
+        <dt>GPA</dt><dd>3.5 / 4.0, Dean's Honors List</dd>
+        <dt>Honors</dt><dd>Sigma Gamma Tau</dd>
+        <dt>Languages</dt><dd>English, French (native), Spanish</dd>
+      </dl>
+    </figure>
+    <div class="prose">
+      <div class="sec-head" style="margin-bottom:4px"><span class="label">About</span><h2>Hardware that has to work the first time</h2><span class="traits cat-hw">Engineer. Builder. Soccer player.</span></div>
+      <p>I'm a junior in Aerospace Engineering at the University of Michigan with a minor in Electrical Engineering. Most of my work sits where the electronics meet the vehicle: power systems, flight hardware, sensors, and the requirements that tie them to a mission.</p>
+      <p>Right now I'm a research assistant at the Intelligent Robotics and Autonomy Laboratory (iRaL), building hardware for an omnidirectional UAV. At Michigan Defense Tech I'm on Operation Nightcrawl, building toward autonomous drone flight in dark, GPS-denied spaces, after leading our DARPA ASIMOV team last spring. I also designed and built a 1U CubeSat system, and work on avionics for M-CLOUD, a Collins Aerospace sponsored ISR project.</p>
+      <p>I grew up across several countries, and I bring that adaptability to every team I join. Off the clock I play club and semi-pro soccer, which is where I learned to train hard and perform under pressure. I'm looking for internships in defense and aerospace, especially in avionics, autonomy, and systems engineering.</p>
+      <div class="now">
+        <ul>
+          <li><span class="when">May 2026 to now</span><span>Research Assistant, iRaL</span></li>
+          <li><span class="when">Aug 2026 to now</span><span>Operation Nightcrawl, Michigan Defense Tech</span></li>
+          <li><span class="when">Sep 2026 to now</span><span>Flight Computer Responsible Engineer, M-CLOUD (X88)</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="label">Skills</span><h2>Tools and methods</h2></div>
+    <div class="skills">
+      <div class="cat-hw"><h3 style="font-size:1.05rem">Hardware</h3><div class="chips"><span class="chip">PCB design &amp; fabrication</span><span class="chip">Altium</span><span class="chip">Embedded systems</span><span class="chip">Microcontrollers</span><span class="chip">Sensor integration</span><span class="chip">LiDAR</span><span class="chip">Stereo cameras</span><span class="chip">Power distribution</span><span class="chip">Oscilloscopes</span><span class="chip">Soldering</span></div></div>
+      <div class="cat-auto"><h3 style="font-size:1.05rem">Software &amp; CAD</h3><div class="chips"><span class="chip">Python</span><span class="chip">MATLAB</span><span class="chip">C/C++</span><span class="chip">Linux</span><span class="chip">Git</span><span class="chip">SOLIDWORKS</span><span class="chip">CATIA</span><span class="chip">Siemens NX</span><span class="chip">Star-CCM+</span></div></div>
+      <div class="cat-sys"><h3 style="font-size:1.05rem">Systems engineering</h3><div class="chips"><span class="chip">Requirements development</span><span class="chip">V&amp;V</span><span class="chip">HITL / SITL testing</span><span class="chip">DT/OT frameworks</span><span class="chip">Trade studies</span><span class="chip">Interface management</span><span class="chip">Root cause analysis</span></div><p class="note">INCOSE ASEP certification, anticipated May 2027</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="band">
+  <div class="wrap contact">
+    <div class="prose">
+      <div class="sec-head" style="margin-bottom:4px"><span class="label">Contact</span><h2>Let's talk</h2></div>
+      <p>I'm open to internships in defense and aerospace. The fastest way to reach me is email. My resume has the full details.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" type="button" data-resume>Download resume (PDF)</button><a class="btn ghost" href="https://www.linkedin.com/in/lukesile" target="_blank" rel="noopener">LinkedIn</a></div>
+      <p class="note" id="resume-msg" aria-live="polite"></p>
+    </div>
+    <div class="cards">
+      <div class="crow"><div><span class="label">Email</span><div class="v" id="email">lukesile@umich.edu</div></div><button class="copy" type="button" data-copy="email">Copy</button></div>
+      <div class="crow"><div><span class="label">LinkedIn</span><div class="v"><a href="https://www.linkedin.com/in/lukesile" target="_blank" rel="noopener">linkedin.com/in/lukesile</a></div></div></div>
+      <div class="crow"><div><span class="label">Location</span><div class="v">Ann Arbor, MI</div></div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<button class="totop" type="button" id="totop" hidden>Back to top</button>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Enlarged image" hidden><button class="lb-close" type="button" id="lb-close">Close</button><figure><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure></div>
+
+<footer class="band"><div class="wrap">Luke Sile · Aerospace Engineering, University of Michigan</div></footer>
+
+<script>
+(function(){
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var el=document.getElementById(b.getAttribute('data-copy'));var t=el.textContent.trim();
+      function sel(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';}
+      try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1600)},sel)}catch(e){sel()}
+    });
+  });
+  var downloads=null;
+  if(window.claude&&window.claude.use){window.claude.use('downloads').then(function(d){downloads=d}).catch(function(){});}
+  var msg=document.getElementById('resume-msg');
+  document.querySelectorAll('[data-resume]').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(!downloads){window.open('resume.pdf','_blank')||(location.href='resume.pdf');return;}
+      fetch('resume.pdf').then(function(r){return r.blob()}).then(function(blob){
+        return downloads.save({filename:'Luke_Sile_Resume.pdf',data:blob});
+      }).then(function(){msg.textContent='Resume saved.'}).catch(function(e){
+        if(e&&e.code==='declined'){msg.textContent='';return;}
+        msg.textContent='The download did not start here. Email me and I will send it.';
+      });
+    });
+  });
+
+  // Filters
+  var fbtns=[].slice.call(document.querySelectorAll('.fbtn'));
+  var items=[].slice.call(document.querySelectorAll('#overview .card, #projects [data-cat]:not(.card)'));
+  var fcount=document.getElementById('fcount');
+  fbtns.forEach(function(b){b.addEventListener('click',function(){
+    var f=b.getAttribute('data-f');
+    fbtns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    var n=0;
+    items.forEach(function(el){var ok=f==='all'||el.getAttribute('data-cat').split(' ').indexOf(f)>-1;el.hidden=!ok;if(ok&&el.classList.contains('card'))n++;});
+    fcount.textContent=n+(n===1?' project':' projects');
+  })});
+  // Lightbox
+  var lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCap=document.getElementById('lb-cap'),lbClose=document.getElementById('lb-close'),lastFocus=null;
+  function openLb(img){var fig=img.closest('figure');lbImg.src=img.currentSrc||img.src;lbImg.alt=img.alt;lbCap.textContent=fig&&fig.querySelector('figcaption')?fig.querySelector('figcaption').textContent:'';lastFocus=img;lb.hidden=false;document.body.style.overflow='hidden';lbClose.focus();}
+  function closeLb(){lb.hidden=true;document.body.style.overflow='';if(lastFocus)lastFocus.focus();}
+  document.querySelectorAll('.proj figure img').forEach(function(img){
+    img.classList.add('zoom');img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label','Enlarge: '+img.alt);
+    img.addEventListener('click',function(){openLb(img)});
+    img.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openLb(img)}});
+  });
+  lbClose.addEventListener('click',closeLb);
+  lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)closeLb()});
+  // Simulation launcher
+  var go=document.getElementById('sim-go');
+  if(go)go.addEventListener('click',function(){var slot=document.getElementById('sim-slot');var f=document.createElement('iframe');f.src='asimov-sim.html';f.title='ASIMOV ethical constraint simulation';slot.replaceWith(f);});
+  // Active nav + back to top
+  var links={};document.querySelectorAll('nav.top .links a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){Object.keys(links).forEach(function(k){links[k].removeAttribute('aria-current')});var a=links[e.target.id];if(a)a.setAttribute('aria-current','true');}})},{rootMargin:'-45% 0px -50% 0px'});
+    Object.keys(links).forEach(function(k){var sec=document.getElementById(k);if(sec)io.observe(sec)});
+  }
+  var totop=document.getElementById('totop');
+  function onScroll(){totop.hidden=window.scrollY<900}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  totop.addEventListener('click',function(){window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});document.querySelector('nav.top a').focus({preventScroll:true});});
+})();
+</script>
+</body>
+</html>
